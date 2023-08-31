@@ -1,0 +1,45 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #153677, #4e085f);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.navbar-brand span {
+    font-weight: 700;
+    color: #153677 !important;
+}
+
+.navbar-brand span:hover {
+    font-weight: 700;
+    color: #4e085f !important;
+}
+
+
+@media screen and (min-width:768px) {
+    #searchInput {
+        width: 500px !important;
+    }
+}
+
+@media screen and (max-width:768px) {
+    html {
+        font-size: 70%;
+    }
+
+    .btn-success {
+        scale: 0.8 !important;
+    }
+
+    .btn-danger {
+        scale: 0.8 !important;
+    }
+}

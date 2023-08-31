@@ -1,0 +1,25 @@
+const staticData = [
+  { id: 1, firstName: "John", lastName: "Doe", standard: 10 },
+  { id: 2, firstName: "Jane", lastName: "Smith", standard: 11 },
+  { id: 3, firstName: "kashif", lastName: "mohd", standard: 12 },
+  { id: 4, firstName: "ayan", lastName: "sheikh", standard: 9 },
+  { id: 5, firstName: "syed", lastName: "rehan", standard: 10 },
+  { id: 6, firstName: "John", lastName: "Doe", standard: 10 },
+  { id: 7, firstName: "Jane", lastName: "Smith", standard: 11 },
+  { id: 8, firstName: "kashif", lastName: "mohd", standard: 12 },
+  { id: 9, firstName: "ayan", lastName: "sheikh", standard: 9 },
+  { id: 10, firstName: "syed", lastName: "rehan", standard: 10 },
+  { id: 11, firstName: "John", lastName: "Doe", standard: 10 },
+  { id: 12, firstName: "Jane", lastName: "Smith", standard: 11 },
+  { id: 13, firstName: "kashif", lastName: "mohd", standard: 12 },
+  { id: 14, firstName: "ayan", lastName: "sheikh", standard: 9 },
+  { id: 15, firstName: "syed", lastName: "rehan", standard: 10 },
+  { id: 16, firstName: "John", lastName: "Doe", standard: 10 },
+  { id: 17, firstName: "Jane", lastName: "Smith", standard: 11 },
+  { id: 18, firstName: "kashif", lastName: "mohd", standard: 12 },
+  { id: 19, firstName: "ayan", lastName: "sheikh", standard: 9 },
+  { id: 20, firstName: "syed", lastName: "rehan", standard: 10 },
+  { id: 21, firstName: "syed", lastName: "rehan", standard: 10 },
+];
+
+export default staticData;

@@ -7,7 +7,7 @@
     <!-- Fav icon -->
     <link rel="icon" type="image/x-icon" href="./images/logo.png">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./css/style.css">
     <!-- Bootstrap Latest compiled and minified CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap icons -->
@@ -20,20 +20,21 @@
     <!--Navbar start-->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
-            <a class="navbar-brand " href="javascript:void()">
+            <a class="navbar-brand" href="javascript:void()">
                 <img src="./images/logo.png" alt="Avatar Logo" style="width:40px;">
-                Students List
+                <span>Students List</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse flex-grow-0  " id="navbarSupportedContent">
-                <form class="d-flex mt-3 mt-lg-0">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-primary" type="submit">Search</button>
-                </form>
+            <div class="collapse navbar-collapse flex-grow-0" id="navbarSupportedContent">
+                <div class="d-flex mt-3 mt-lg-0">
+                    <input id="searchInput" class="form-control me-2" type="text"
+                        placeholder="Search by name or standard" aria-label="Search">
+                    <!-- <button id="searchButton" class="btn btn-outline-primary" type="button">Search</button> -->
+                </div>
             </div>
         </div>
     </nav>
@@ -57,21 +58,21 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="studentFormModal" class="was-validated">
+                        <form id="studentFormModal">
                             <div class="mb-3">
                                 <label for="firstNameModal" class="form-label">First Name</label>
-                                <input type="text" class="form-control" id="firstNameModal" required>
-                                <div class="invalid-feedback">first name is required</div>
+                                <input type="text" class="form-control" id="firstNameModal">
+                                <div id="error-firstName" class="text-danger"></div>
                             </div>
                             <div class="mb-3">
                                 <label for="lastNameModal" class="form-label">Last Name</label>
-                                <input type="text" class="form-control" id="lastNameModal" required>
-                                <div class="invalid-feedback">last name is required</div>
+                                <input type="text" class="form-control" id="lastNameModal">
+                                <div id="error-lastName" class="text-danger"></div>
                             </div>
                             <div class="mb-3">
                                 <label for="standardModal" class="form-label">Standard</label>
-                                <input type="number" class="form-control" id="standardModal" required>
-                                <div class="invalid-feedback">standard is required</div>
+                                <input type="number" min="1" max="12" class="form-control" id="standardModal">
+                                <div id="error-standard" class="text-danger"></div>
                             </div>
                             <hr>
                             <button type="submit" id="submit-button" class="btn btn-primary float-end">Add</button>
@@ -81,12 +82,17 @@
             </div>
         </div>
 
-        <div id="studentTable" class="bg-light p-4 mb-4 rounded rounded-2">
+        <div id="tableContainer" class="bg-light p-4 mb-4 rounded rounded-2 position-relative overflow-auto">
             <!--Table start-->
-            <table class="table table-bordered table-hover table-light table-s ">
+            <table class="table table-responsive table-bordered table-hover table-light text-nowrap">
                 <thead class="table-active">
                     <tr>
-                        <th scope="col">#Id</th>
+                        <th scope="col" class="d-flex">#Id
+                            <span>
+                                <i id="sort-asc" class="bi bi-sort-up text-secondary ps-2"></i>
+                                <i id="sort-desc" class="bi bi-sort-down text-secondary ps-2"></i>
+                            </span>
+                        </th>
                         <th scope="col">First Name</th>
                         <th scope="col">Last Name</th>
                         <th scope="col">Standard</th>
@@ -100,21 +106,25 @@
             <!--Table end-->
 
             <!--Pagination start-->
-            <ul class="pagination justify-content-end">
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            </ul>
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-end" id="pagination">
+                    <!-- "Previous" button -->
+                    <li class="page-item">
+                        <a class="page-link prev-link" href="#">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+
+                    <!-- Pagination links will be inserted here dynamically -->
+
+                    <!-- "Next" button -->
+                    <li class="page-item">
+                        <a class="page-link next-link" href="#">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
             <!--Pagination end-->
 
             <!--Delete Modal start-->
@@ -139,13 +149,24 @@
                 </div>
             </div>
             <!--Delete Modal end-->
+
+            <div id="toast-container" class="position-fixed top-0 start-0 p-3"></div>
+
         </div>
+
+        <!--Spinner start-->
+        <div id="spinnerContainer" class="text-center d-none position-absolute z-3 top-50 start-50 end-50 bottom-50">
+            <div class="spinner-border text-primary" style="width: 3.5rem; height: 3.5rem;" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+        <!--Spinner end-->
+
     </div>
-
-
-    <!-- Bootstrap Latest compiled JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-    <script type="module" src="script.js"></script>
+    
+        <!-- Bootstrap Latest compiled JavaScript -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+        <script type="module" src="./js/main.js"></script>
 
 </body>
 
